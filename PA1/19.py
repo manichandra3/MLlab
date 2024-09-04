@@ -32,4 +32,4 @@ def random_split(data, ratio_x, ratio_y):
 
 for train_size in np.arange(0.1, 1.0, 0.1):
     print(f"\nTrain:Test Ratio = {train_size * 100:.0f}:{(1 - train_size) * 100:.0f}")
-    split_dataset(df, train_size)
+    random_split(df, 0.9, 0.1)
