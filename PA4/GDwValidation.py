@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 import pandas as pd
 
@@ -67,6 +69,9 @@ def gradient_descent(w, x_train, b, y_train, num_iterations, alpha):
 def k_fold_cross_validation(k, x, y, num_iterations, alpha, ratio_x, ratio_v, ratio_y):
     fold_size = len(x) // k
     avg_cost = 0
+    min_cost = sys.maxsize
+    b_best = 0
+    w_best = 0
 
     for fold in range(k):
         print(f"Fold {fold + 1} starts")
@@ -94,12 +99,17 @@ def k_fold_cross_validation(k, x, y, num_iterations, alpha, ratio_x, ratio_v, ra
         w, b, cost_history, _, _ = gradient_descent(w, x_train, b, y_train, num_iterations, alpha)
 
         val_cost = MSE(w, x_val, b, y_val)
+        if val_cost < min_cost:
+            min_cost = val_cost
+            b_best = b
+            w_best = w
         print(f"Fold {fold + 1}: Validation Cost = {val_cost}")
 
         avg_cost += val_cost
 
     avg_cost /= k
     print(f"Average Validation Cost after {k}-Fold Cross Validation: {avg_cost}")
+    print(f"best: w: {w_best}, b: {b_best}")
     return avg_cost
 
 
