@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def plt_regression(w, b, x):
@@ -49,39 +50,39 @@ def stochastic_gradient_descent(w, x, b, y, num_iterations=50, alpha=0.01):
     return w, b, cost_history, w_history, b_history
 
 
-# df = pd.read_csv('data.csv', delimiter=',')
-# print(df.shape)
-# with pd.option_context('display.max_columns', 40):
-#     print(df.describe(include='all'))
-#
-# x_train = df.iloc[:, 0].values
-# y_train = df.iloc[:, 1].values
-#
-# x_train = x_train.reshape(-1, 1)
-# w = np.zeros(x_train.shape[1])
-# b = 0
-#
-# w_final, b_final, cost_plt, w_plt, b_plt = stochastic_gradient_descent(w, x_train, b, y_train)
-# print(f"Final weights: {w_final}, Final bias: {b_final}")
-#
-# plt.title("Regression Plot")
-# plt.plot(x_train, plt_regression(w_final, b_final, x_train), color='orange', label="Prediction")
-# plt.scatter(df.iloc[:, 0], df.iloc[:, 1], label="Actual Data")
-# plt.xlabel('Exam Score')
-# plt.ylabel('Number of Hours of Study')
-# plt.legend()
-# plt.show()
-#
-# plt.title("Cost Function Plot")
-# plt.plot(cost_plt, label="Cost")
-# plt.xlabel('Iteration')
-# plt.ylabel('Cost')
-# plt.legend()
-# plt.show()
-#
-# plt.title("Cost vs. Weights Plot")
-# plt.plot(w_plt, cost_plt, label="Cost vs. Weights")
-# plt.xlabel('Weights')
-# plt.ylabel('Cost')
-# plt.legend()
-# plt.show()
+df = pd.read_csv('data.csv', delimiter=',')
+print(df.shape)
+with pd.option_context('display.max_columns', 40):
+    print(df.describe(include='all'))
+
+x_train = df.iloc[:, 0].values
+y_train = df.iloc[:, 1].values
+
+x_train = x_train.reshape(-1, 1)
+w = np.zeros(x_train.shape[1])
+b = 0
+
+w_final, b_final, cost_plt, w_plt, b_plt = stochastic_gradient_descent(w, x_train, b, y_train)
+print(f"Final weights: {w_final}, Final bias: {b_final}")
+
+plt.title("Regression Plot")
+plt.plot(x_train, plt_regression(w_final, b_final, x_train), color='orange', label="Prediction")
+plt.scatter(df.iloc[:, 0], df.iloc[:, 1], label="Actual Data")
+plt.xlabel('Exam Score')
+plt.ylabel('Number of Hours of Study')
+plt.legend()
+plt.show()
+
+plt.title("Cost Function Plot")
+plt.plot(cost_plt, label="Cost")
+plt.xlabel('Iteration')
+plt.ylabel('Cost')
+plt.legend()
+plt.show()
+
+plt.title("Cost vs. Weights Plot")
+plt.plot(w_plt, cost_plt, label="Cost vs. Weights")
+plt.xlabel('Weights')
+plt.ylabel('Cost')
+plt.legend()
+plt.show()
