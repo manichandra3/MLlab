@@ -1,5 +1,5 @@
 from typing import Tuple, Any
-
+import math
 import numpy as np
 import pandas as pd
 import random
@@ -17,14 +17,23 @@ data = {
 df = pd.DataFrame(data)
 
 
-def normalize(X: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Series, pd.Series]:
+def sigmoid(X):
+    """
+    Returns the sigmoid of a given x
+    :param X: x value
+    :return: Sigmoid of x
+    """
+    return 1/(1+math.exp(X)**-1)
+
+
+def normalize(X: pd.DataFrame) -> Tuple[Any, Any, Any]:
     """
     Normalize the data frame according to the following rules:
     :param X: DataFrame to be normalized
     :return: Tuple containing the normalized DataFrame, mean of each column, and standard deviation of each column
     """
     contract_mapping = {'Month-to-month': 0, 'One year': 1, 'Two year': 2}
-    X['ContractType'] = X['ContractType'].map(contract_mapping)
+    X['ContractType'] = X['ContractType'].replace(contract_mapping)
 
     features = X.drop(columns=['Churn'])
 
@@ -37,7 +46,15 @@ def normalize(X: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Series, pd.Series]:
     return X_norm, mu, sigma
 
 
-def gradient_descent()
+def logistic_cost(X, y, w, b):
+    m = X.shape[0]
+    z = np.dot(X, w) + b
+    f_wb = sigmoid(z)
+
+    cost = -np.mean(y * np.log(f_wb) + (1 - y) * np.log(1 - f_wb))
+
+    return cost
+
 
 df_normalized, mu, sigma = normalize(df)
 print(df_normalized)
