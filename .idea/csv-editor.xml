@@ -17,6 +17,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/EA2/data.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/PA3/data.csv">
           <value>
             <Attribute>
