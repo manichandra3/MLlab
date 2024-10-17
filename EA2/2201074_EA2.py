@@ -1,23 +1,33 @@
 import numpy as np
 import pandas as pd
-import sys
+import matplotlib.pyplot as plt
 
 
 def euclideanDistance(x, y):
     return np.sqrt(np.sum((x - y) ** 2))
 
 
+def normalize_features(x):
+    mean = np.mean(x, axis=0)
+    std = np.std(x, axis=0)
+    x_normalized = (x - mean) / std
+    return x_normalized, mean, std
+
+
 class PartitioningClustering:
     def __init__(self, **kwargs):
+        self.classifications = None
+        self.medoids = None
+        self.centroids = None
         self.params = kwargs
         self.medoids_cost = []
 
     def initMedoids(self, data):
         self.medoids = []
-        indexes = np.random.choice(len(data), self.params["k"], replace=False)
+        indexes = np.random.choice(len(data), self.params["k"], replace=False)  # select k unique indices from data
         self.medoids = data[indexes]
         print(f"\nselected medoids >>> {self.medoids}\n")
-        self.medoids_cost = [0] * self.params["k"]
+        self.medoids_cost = [0] * self.params["k"]  # initialize costs
         print(f"\nmedoids cost >>> {self.medoids_cost}\n")
 
     def isConverged(self, new_medoids):
@@ -49,30 +59,14 @@ class PartitioningClustering:
             self.params["has_converged"] = False
 
     def fit(self, data):
-        if self.params["method"] == "kmeans":
-            self.centroids = {i: data[i] for i in range(self.params["k"])}
-
-            for _ in range(self.params["max_iter"]):
-                self.classifications = {i: [] for i in range(self.params["k"])}
-
-                for featureset in data:
-                    distances = [np.linalg.norm(featureset - self.centroids[centroid]) for centroid in self.centroids]
-                    classification = distances.index(min(distances))
-                    self.classifications[classification].append(featureset)
-
-                prev_centroids = self.centroids.copy()
-                for classification in self.classifications:
-                    if self.classifications[classification]:
-                        self.centroids[classification] = np.average(self.classifications[classification], axis=0)
-
-                if all(np.array_equal(prev_centroids[c], self.centroids[c]) for c in self.centroids):
-                    break
-
-        elif self.params["method"] == "kmedoids":
+        if self.params["method"] == "kmedoids":
             self.initMedoids(data)
             for _ in range(self.params["max_iter"]):
                 cur_labels = []
                 self.medoids_cost = [0] * self.params["k"]
+
+                # Reset WCSS for this iteration
+                wcss = 0.0
 
                 for k in range(len(data)):
                     d_list = [euclideanDistance(self.medoids[j], data[k]) for j in range(self.params["k"])]
@@ -80,12 +74,21 @@ class PartitioningClustering:
                     self.medoids_cost[np.argmin(d_list)] += min(d_list)
 
                 print(f"\ntotal medoids cost {self.medoids_cost}")
+
+                # Calculate WCSS
+                for i in range(self.params["k"]):
+                    cluster_points = data[np.array(cur_labels) == i]
+                    for point in cluster_points:
+                        wcss += euclideanDistance(self.medoids[i], point) ** 2
+
+                print(f"WCSS for this iteration: {wcss}")
+
                 self.updateMedoids(data, cur_labels)
                 if self.params["has_converged"]:
                     break
 
             print(f"\nfinal medoids >>> {self.medoids}\n")
-            return self.medoids
+            return self.medoids, wcss
 
     def predict(self, data):
         pred = []
@@ -95,29 +98,41 @@ class PartitioningClustering:
         return np.array(pred)
 
 
+def performance_evaluation(k_values, customer_data):
+    wcss_values = []
+    for k_value in k_values:
+        print(f'for k_value {k_value}')
+        print('------------------------------------------------')
+        params_ = {'k': k_value, 'max_iter': 400, 'has_converged': False, 'method': 'kmedoids'}
+        p_ = PartitioningClustering(**params_)
+        _, wcss_ = p_.fit(customer_data)
+        wcss_values.append(wcss_)
+        print('------------------------------------------------')
+    return wcss_values
+
+
 if __name__ == "__main__":
-    # Load customer data from CSV
-    csv_file_path = sys.argv[1]  # CSV file path should be passed as the first argument
+    csv_file_path = 'data.csv'
     df = pd.read_csv(csv_file_path)
-
-    # Assuming the relevant columns are named as 'Total Spending', 'Number of Transactions', 'Average Purchase Value'
     customer_data = df[['Total Spending', 'Number of Transactions', 'Average Purchase Value']].to_numpy()
+    normalized_customer_data = normalize_features(customer_data)
 
-    params = {
-        'k': int(sys.argv[2]),  # Number of clusters
-        'max_iter': 300,
-        'has_converged': False,
-        'method': sys.argv[3]  # Clustering method ('kmeans' or 'kmedoids')
-    }
+    k_values = range(1, 11)
+    wcss = performance_evaluation(k_values, customer_data)
 
-    p = PartitioningClustering(**params)
-    p.fit(customer_data)
+    user_data = np.array([float(a_d) for a_d in
+                          input("Enter new data to cluster (spending, transactions, average value) >>> ").split(",")])
+    print('===========================')
+    print(f'prediction for k = 3')
+    p = PartitioningClustering(k=3, max_iter=400, has_converged=False, method='kmedoids')
+    _, __ = p.fit(customer_data)
 
-    # Assuming you want to predict new data from another CSV file or the same one
-    user_data = df[['Total Spending', 'Number of Transactions', 'Average Purchase Value']].to_numpy()
-    predictions = p.predict(user_data)
+    print(f"\nuser data >>> {user_data}")
+    print(f"CLUSTER IS  |>> {p.predict(user_data.reshape(1, -1))} <<| FOR {user_data}")
+    print('===========================')
 
-    # Print out the predictions
-    for i, pred in enumerate(predictions):
-        print(f"Data point {i}: Cluster {pred}")
-
+    plt.plot(k_values, wcss, '-x', color='red')
+    plt.xlabel('Number of Clusters (k)')
+    plt.ylabel('WCSS')
+    plt.title('WCSS vs. Number of Clusters')
+    plt.show()
