@@ -24,10 +24,10 @@ class PartitioningClustering:
 
     def initMedoids(self, data):
         self.medoids = []
-        indexes = np.random.choice(len(data), self.params["k"], replace=False)  # select k unique indices from data
+        indexes = np.random.choice(len(data), self.params["k"], replace=False)
         self.medoids = data[indexes]
         print(f"\nselected medoids >>> {self.medoids}\n")
-        self.medoids_cost = [0] * self.params["k"]  # initialize costs
+        self.medoids_cost = [0] * self.params["k"]
         print(f"\nmedoids cost >>> {self.medoids_cost}\n")
 
     def isConverged(self, new_medoids):
@@ -42,8 +42,8 @@ class PartitioningClustering:
 
         new_medoids = []
         for i in range(self.params["k"]):
-            if clusters[i]:  # check if the cluster is not empty
-                new_medoid = clusters[i][0]  # start with the first point
+            if clusters[i]:
+                new_medoid = clusters[i][0]
                 old_medoid_cost = float('inf')
 
                 for candidate in clusters[i]:
@@ -64,23 +64,15 @@ class PartitioningClustering:
             for _ in range(self.params["max_iter"]):
                 cur_labels = []
                 self.medoids_cost = [0] * self.params["k"]
-
-                # Reset WCSS for this iteration
                 wcss = 0.0
 
                 for k in range(len(data)):
-                    d_list = [euclideanDistance(self.medoids[j], data[k]) for j in range(self.params["k"])]
-                    cur_labels.append(np.argmin(d_list))
-                    self.medoids_cost[np.argmin(d_list)] += min(d_list)
+                    distances = [euclideanDistance(medoid, data[k]) for medoid in self.medoids]
+                    label = np.argmin(distances)
+                    cur_labels.append(label)
+                    self.medoids_cost[label] += distances[label]
 
-                print(f"\ntotal medoids cost {self.medoids_cost}")
-
-                # Calculate WCSS
-                for i in range(self.params["k"]):
-                    cluster_points = data[np.array(cur_labels) == i]
-                    for point in cluster_points:
-                        wcss += euclideanDistance(self.medoids[i], point) ** 2
-
+                wcss = sum(euclideanDistance(self.medoids[label], data[k]) ** 2 for k, label in enumerate(cur_labels))
                 print(f"WCSS for this iteration: {wcss}")
 
                 self.updateMedoids(data, cur_labels)
@@ -116,7 +108,6 @@ if __name__ == "__main__":
     df = pd.read_csv(csv_file_path)
     customer_data = df[['Total Spending', 'Number of Transactions', 'Average Purchase Value']].to_numpy()
     normalized_customer_data = normalize_features(customer_data)
-
     k_values = range(1, 11)
     wcss = performance_evaluation(k_values, customer_data)
 

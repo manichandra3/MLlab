@@ -24,6 +24,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/Midsem/Iris.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/Mini_Project/sms-spam-detection/sms-spam.csv">
           <value>
             <Attribute>
@@ -46,6 +53,13 @@
           </value>
         </entry>
         <entry key="/PA4/data.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/PA7/tips.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
