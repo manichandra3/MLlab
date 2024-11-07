@@ -109,7 +109,7 @@ for k in ks:
     test_acc.append(test_accuracy)
 
 indexes = [i for i in range(2, 7)]
-plt.scatter(test_acc, indexes)
+plt.plot(indexes, test_acc, 'bo-')
 plt.ylabel('Number of clusters')
 plt.xlabel('Accuracy')
 plt.title('Accuracy vs Number of Clusters')
