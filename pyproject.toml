@@ -1,0 +1,19 @@
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+
+[tool.poetry]
+name = "your-project-name"
+version = "0.1.0"
+description = "A brief description of your project"
+authors = ["Your Name <your.email@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"  # Specify your Python version
+pandas = "^2.2.3"
+matplotlib = "^3.9.2"
+scikit-learn = "^1.5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
