@@ -1,0 +1,13 @@
+Patient_ID,High_Fever,Cough,Body_Ache,Runny_Nose,Disease
+1,1,1,1,0,Flu
+2,0,1,0,1,Cold
+3,0,0,0,1,Allergy
+4,1,0,1,0,Stomach Infection
+5,1,0,1,0,Migraine
+6,1,1,1,0,Chickenpox
+7,0,1,0,1,Cold
+8,1,0,1,1,Flu
+9,1,0,0,1,Allergy
+10,1,0,1,0,Migraine
+11,1,1,1,1,Chickenpox
+12,0,0,1,0,Stomach Infection
