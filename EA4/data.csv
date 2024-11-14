@@ -11,3 +11,31 @@ Patient_ID,High_Fever,Cough,Body_Ache,Runny_Nose,Disease
 10,1,0,1,0,Migraine
 11,1,1,1,1,Chickenpox
 12,0,0,1,0,Stomach Infection
+13,1,1,0,1,Flu
+14,0,1,1,0,Cold
+15,0,0,1,1,Allergy
+16,1,0,1,1,Stomach Infection
+17,1,0,0,0,Migraine
+18,1,1,0,0,Chickenpox
+19,0,0,0,0,Cold
+20,1,1,1,0,Flu
+21,0,0,1,1,Allergy
+22,1,1,0,1,Stomach Infection
+23,1,0,1,1,Migraine
+24,1,1,1,1,Chickenpox
+25,0,1,0,1,Cold
+26,1,0,1,0,Flu
+27,1,0,0,0,Allergy
+28,0,1,1,1,Stomach Infection
+29,1,1,1,0,Migraine
+30,1,1,1,1,Chickenpox
+31,0,0,1,1,Allergy
+32,1,1,0,1,Flu
+33,0,1,1,0,Cold
+34,0,1,0,1,Cold
+35,1,1,1,1,Chickenpox
+36,1,0,1,1,Stomach Infection
+37,1,1,0,1,Flu
+38,0,0,1,0,Stomach Infection
+39,1,0,0,0,Migraine
+40,1,1,1,1,Chickenpox

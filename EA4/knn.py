@@ -1,9 +1,10 @@
+from math import sqrt
 import pandas as pd
 import numpy as np
-import matplotlib as plt
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from math import sqrt
 
 dataset = pd.read_csv('data.csv')
 X = dataset.iloc[:, :-1].values
@@ -24,15 +25,15 @@ class KNN():
   def calculate_euclidean(self,sample1,sample2):
     distance=0.0
     for i in range(len(sample1)):
-      distance+=(sample1[i]-sample2[i])**2 #Euclidean Distance = sqrt(sum i to N (x1_i – x2_i)^2)
+      distance+=(sample1[i]-sample2[i])**2
     return sqrt(distance)
   def nearest_neighbors(self,test_sample):
-    distances=[]#calculate distances from a test sample to every sample in a training set
+    distances=[]
     for i in range(len(self.x_train)):
       distances.append((self.y_train[i],self.calculate_euclidean(self.x_train[i],test_sample)))
-    distances.sort(key=lambda x:x[1])#sort in ascending order, based on a distance value
+    distances.sort(key=lambda x:x[1])
     neighbors=[]
-    for i in range(self.k): #get first k samples
+    for i in range(self.k):
       neighbors.append(distances[i][0])
     return neighbors
   def predict(self,test_set):
@@ -45,6 +46,21 @@ class KNN():
     return predictions
 
 
+def accuracy(y_true, y_pred):
+    correct = sum(y1 == y2 for y1, y2 in zip(y_true, y_pred))
+    return correct / len(y_true)
 
-model=KNN(5)
-model.fit(X_train,y_train)
+
+Is = [1,2,3,4,5,6,7,8,9,10]
+accuracies = []
+for i in Is:
+    model = KNN(i)
+    model.fit(X_train, y_train)
+    predictions = model.predict(X_test)
+    accuracies.append(accuracy(y_test, predictions))
+
+plt.plot(Is, accuracies)
+plt.xlabel('Number of Neighbors (k)')
+plt.ylabel('Accuracy')
+plt.title('KNN Accuracy vs Number of Neighbors')
+plt.show()
