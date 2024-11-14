@@ -1,0 +1,21 @@
+gender,senior_citizen,partner,dependents,tenure,phone_service,multiple_lines,internet_service,contract,payment_method,churn
+Male,0,Yes,No,12,Yes,No,Fiber optic,Month-to-month,Electronic check,Yes
+Female,1,No,No,34,Yes,Yes,DSL,One year,Bank transfer,No
+Female,0,Yes,Yes,58,Yes,No,No,Two year,Electronic check,No
+Male,1,Yes,No,24,Yes,Yes,Fiber optic,Month-to-month,Credit card,Yes
+Female,0,No,Yes,6,No,No phone service,DSL,One year,Mailed check,No
+Male,1,Yes,Yes,42,Yes,Yes,Fiber optic,Two year,Bank transfer,No
+Female,0,No,No,18,Yes,No,Fiber optic,Month-to-month,Electronic check,Yes
+Male,0,Yes,No,72,Yes,Yes,DSL,Two year,Electronic check,No
+Female,1,No,Yes,9,Yes,No,Fiber optic,Month-to-month,Credit card,Yes
+Male,0,No,No,3,No,No phone service,No,Month-to-month,Mailed check,Yes
+Female,1,Yes,Yes,45,Yes,Yes,Fiber optic,Two year,Bank transfer,No
+Male,0,No,Yes,23,Yes,No,DSL,One year,Electronic check,Yes
+Female,1,Yes,No,56,Yes,No,Fiber optic,Two year,Credit card,No
+Male,0,Yes,Yes,28,Yes,Yes,No,Month-to-month,Mailed check,Yes
+Female,1,No,No,7,No,No phone service,DSL,Month-to-month,Electronic check,Yes
+Male,0,No,Yes,15,Yes,Yes,Fiber optic,One year,Bank transfer,No
+Female,1,Yes,Yes,60,Yes,No,Fiber optic,Two year,Credit card,No
+Male,0,No,No,14,Yes,No,No,Month-to-month,Mailed check,Yes
+Female,1,Yes,Yes,36,Yes,Yes,Fiber optic,Two year,Bank transfer,No
+Male,0,No,No,5,No,No phone service,DSL,Month-to-month,Electronic check,Yes
